@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #020c25;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            transition: width 0.3s;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 70px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            font-size: 16px;
+            transition: background 0.3s, padding-left 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a i {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background-color: #394f8d;
+        }
+
+        /* Content */
+        .content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(to right, #1A3B56, #4A647D);
+            color: white;
+            padding: 12px;
+        }
+
+        .navbar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 30%;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2));
+            clip-path: polygon(0 0, 100% 100%, 0 100%);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #f2f1f8;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #eae9ef !important;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link.active:hover {
+            color: black !important;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: #eae9ef;
+            transition: color 0.3s;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: black !important;
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            background: #2c4059;
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: #ffffff;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background: #4975ce6a;
+            color: #fff;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-container {
+            display: flex;
+            justify-content: space-between; /* Space between the items */
+            align-items: center;
+            width: 100%;
+            max-width: 600px; /* Adjust as needed */
+            margin: 20px auto;
+            gap: 20px; /* Space between card & chart */
+        }
+
+        .card {
+            background: linear-gradient(to bottom, #c2d1e5, #c6decf);
+            padding: 30px; 
+            min-width: 150px; 
+            min-height: 100px; 
+            border-radius: 15px; 
+            text-align: center;
+            font-size: 24px; 
+            font-weight: bold;
+            color: #251c5a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .small-card i {
+            font-size: 40px;
+            margin-bottom: 10px; /* Space below icon */
+        }
+
+        .small-card h4 {
+            margin: 5px 0; /* Adds spacing above and below the number */
+            font-size: 24px;
+        }
+
+        .small-card p {
+            margin-top: 10px; /* Adds space between number and text */
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .small-card {
+            width: 250px; /* Reduce card width */
+            height: 220px; /* Reduce card height */
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #branchChart {
+            width: 200px !important;
+            height: 200px !important;
+            display: block;
+            margin: auto;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th {
+            background: linear-gradient(to right, #1A3B56, #4A647D);
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background: #f1f1f1;
+        }
+
+        .btn-action {
+            text-decoration: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-delete {
+            background: linear-gradient(to right, #121212, #1e1e1e);
+            border-color: red;
+        }
+
+        .btn-action:hover {
+            background: #939dae;
+            color: #020c25;
+        }
+
+        .btn-update {
+            background: linear-gradient(to right, #121212, #1e1e1e);
+            border-color: green;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Admin Panel</h3>
+        <a href="{% url 'dashboard_view' %}"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="{% url 'student' %}"><i class="fas fa-user-graduate"></i> Students</a>
+        <a href="{% url 'teacher' %}"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
+        <a href="{% url 'branch_view' %}"><i class="fas fa-code-branch"></i> Branches</a>
+        <a href="{% url 'subject_view' %}"><i class="fas fa-book"></i> Subjects</a>
+        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand">Students</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'add_student' %}">Add Student</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Branch
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">CSE</a></li>
+                                <li><a class="dropdown-item" href="#">Cybersecurity</a></li>
+                                <li><a class="dropdown-item" href="#">AIML</a></li>
+                                <li><a class="dropdown-item" href="#">Mechanical Engineering</a></li>
+                                <li><a class="dropdown-item" href="#">Information Technology</a></li>
+                                <li><a class="dropdown-item" href="#">Civil</a></li>
+                                <li><a class="dropdown-item" href="#">Electrical Engineering</a></li>
+                                <li><a class="dropdown-item" href="#">Chemical Engineering</a></li>
+                                <li><a class="dropdown-item" href="#">Electronics and Communication Engineering</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-container">
+            <!-- Total Students Card -->
+            <div class="card small-card">
+                <i class="fa fa-user-graduate fa-2x"></i>
+                <h4>{{ student_count }}</h4>
+                <p>Total Students</p>
+            </div>
+        
+            <!-- Pie Chart Card -->
+            <div class="card small-card">
+                <h4>Branch Distribution</h4>
+                <canvas id="branchChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Student Table -->
+        <div class="container table-container">
+            <h2 class="text-center mb-4">Student Database</h2>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Branch</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in student_details %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ student.student_id }}</td>
+                        <td>{{ student.first_name }} {{ student.last_name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.branch }}</td>
+                        <td>{{ student.phone }}</td>
+                        <td>
+                            <a href="{% url 'update_student' email=student.email %}" class="btn-action btn-update">Update</a>
+                            <a href="{% url 'delete_student' email=student.email %}" class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No students found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Function to extract branch data from the table
+        function getBranchData() {
+            let branchCounts = {};
+            document.querySelectorAll("table tbody tr").forEach(row => {
+                let branch = row.children[4]?.textContent.trim(); // 5th column (Branch)
+                if (branch) {
+                    branchCounts[branch] = (branchCounts[branch] || 0) + 1;
+                }
+            });
+            return branchCounts;
+        }
+
+        // Fetch branch data
+        const branchData = getBranchData();
+        const branchNames = Object.keys(branchData);
+        const studentCounts = Object.values(branchData);
+
+        // Vibrant colors for chart
+        const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#C9CBCF', '#FF6384', '#36A2EB'];
+
+        // Pie Chart Configuration
+        const ctx = document.getElementById('branchChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: branchNames,
+                datasets: [{
+                    data: studentCounts,
+                    backgroundColor: colors.slice(0, branchNames.length),
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333',
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

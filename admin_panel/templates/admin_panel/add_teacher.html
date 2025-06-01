@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD TEACHER</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0e1638, #27103e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .add-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .heading {
+            font-size: 26px;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            flex: 1;
+            text-align: left;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            flex: 2;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease-in-out;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.5);
+        }
+        .enrolled-input {
+            flex: 2;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease-in-out;
+            
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        @media (max-width: 768px) {
+            .add-container {
+                max-width: 90%;
+                padding: 15px;
+            }
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .form-group label {
+                margin-bottom: 5px;
+            }
+        }
+        @media (max-width: 500px) {
+            .add-container {
+                max-width: 95%;
+                padding: 10px;
+            }
+            .btn {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="add-container">
+        <div class="heading">ADD TEACHER</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="first name">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label for="last name">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                {{ form.subject }}
+            </div>
+            <div class="form-group">
+                <label for="assigned branch">Assigned Branch</label>
+                {{ form.assigned_branch }}
+            </div>
+            <div class="form-group">
+                <label for="assigned section">Assigned Section</label>
+                {{ form.assigned_section }}
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                {{ form.phone }}
+            </div>
+            <div class="form-group">
+                <label for="hire date">Hire Date</label>
+                {{ form.hire_date }}
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary">Add Teacher</button>
+        </form>
+    </div>    
+</body>
+</html>

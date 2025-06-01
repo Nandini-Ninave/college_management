@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background with soft gradient */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("https://img.freepik.com/free-psd/3d-rendering-graduate-frame-design_23-2151869253.jpg?ga=GA1.1.630336323.1741791781&semt=ais_authors_boost") no-repeat center center;
+            background-size: cover;  
+            background-attachment: fixed; 
+        }
+
+        .login-container {
+            background: rgba(15, 15, 15, 0.9); /* Added slight transparency */
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-heading {
+            font-size: 26px;
+            font-weight: bold;
+            color: #fff; /* Changed to white for better contrast */
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #ddd;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #222;
+            color: #fff;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .submit_btn {
+            font-size: 18px;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit_btn:hover {
+            background-color: #0056b3;
+        }
+
+        .register {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+
+        .register:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 25px;
+                margin: 0 10px;
+            }
+
+            .login-heading {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-heading">LOGIN</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="submit_btn">Login</button>
+        </form>
+    </div>
+</body>
+</html>
